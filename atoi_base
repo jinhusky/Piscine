@@ -1,0 +1,102 @@
+
+#include <stdio.h>
+#include <unistd.h>
+int verif_base(char *base)
+{
+    int y;
+    int i = 0;
+    while (base[i] != '\0')
+    {
+        y = i+1;
+        if (base[i] == '+' || base[i] == '-' || base[i] == ' ')
+        {
+            return (0);
+        }
+        while (base[y] != '\0')
+        {
+            if (base[i] == base[y])
+            {
+                return (0);
+            }
+            y++;
+        }
+        i++;
+    }
+    if (i < 2)
+    {
+        return (0);
+    }
+    return (1);
+}
+int str_len(char *str)
+{
+    int i = 0;
+    while (str[i] != '\0')
+    {
+        i++;
+    }
+    return (i);
+}
+
+int base_num(int num, int power)
+{
+    int i = 1;
+    int value = num;
+    if (power == 0)
+        return 1;
+    while (i < power) 
+    {
+        num = num * value;
+        i++;
+    }
+    return (num);
+    
+}
+
+int ft_atoi(char *str)
+{
+    int i = 0;
+    int num = 0;
+    while (str[i] != '\0')
+    {
+        num *= 10 + (str[i] - '0');
+        i++;
+    }
+    return (num);
+}
+int ft_atoi_base(char *str, char *base)
+{
+    if (!(verif_base(base)))
+        return 0;
+    int base_len = str_len(base);
+    int num = 0;
+    int i = 0;
+    int y;
+    
+    while (str[i] != '\0')
+    {
+        y=0;
+        while (base[y] != '\0')
+        {
+            
+            if (str[i] == base[y])
+            {
+                num = num + (y  * base_num(base_len, (str_len(str) - i - 1)));
+               printf("%i\n", y );
+                break;
+            }
+            y++;
+        }
+        i++;
+    }
+    return(num);
+}
+
+int main()
+{
+   
+    char str[7] = "410de5";
+     //printf("%i\n", (base_num(16 , 5) * 4));
+    char hex[17] = "0123456789abcdef";
+    printf("%i\n",ft_atoi_base(str, hex));
+}
